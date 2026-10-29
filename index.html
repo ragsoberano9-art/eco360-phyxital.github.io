@@ -3,116 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ECO-360 Phyxital Solutions — Red de Nodos San Rafael</title>
-  
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
+  <title>ECO360 PHYXITAL SOLUTION GOVERNMENT</title>
   <style>
-    body, html {
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --text: #c9d1d9;
+      --accent: #2ea043;
+      --border: #30363d;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      background-color: var(--bg);
+      color: var(--text);
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #0d1117;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
     }
-    #map {
-      width: 100%;
-      height: 100vh;
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { color: #58a6ff; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    h2 { color: #79c0ff; margin-top: 1.5rem; }
+    .badge {
+      display: inline-block;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--accent);
     }
-    /* Estilo de Popup en paleta Luxury Industrial */
-    .leaflet-popup-content-wrapper {
-      background: #161b22;
-      color: #f0f6fc;
-      border: 1px solid #30363d;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-    .leaflet-popup-tip {
-      background: #161b22;
-    }
-    .nodo-title {
-      font-weight: 700;
-      font-size: 1.1em;
-      color: #00F0FF;
-      margin-bottom: 4px;
-    }
-    .nodo-meta {
-      font-size: 0.85em;
-      color: #8b949e;
-      margin-bottom: 8px;
-    }
-    .nodo-desc {
-      font-size: 0.9em;
-      color: #c9d1d9;
-      line-height: 1.4;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
+    ul { padding-left: 1.2rem; }
+    footer { margin-top: 3rem; font-size: 0.8rem; color: #8b949e; border-top: 1px solid var(--border); padding-top: 1rem; }
   </style>
 </head>
 <body>
+  <div class="container">
+    <span class="badge">Ecosistema Soberano & Defensivo</span>
+    <h1>ECO360 PHYXITAL SOLUTION GOVERNMENT</h1>
+    <p><strong>Soberanía Tecnológica, Operaciones Críticas e Inteligencia Descentralizada.</strong></p>
 
-<div id="map"></div>
+    <h2>Pilares del Sistema</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>1. Infraestructura Local & Edge</h3>
+        <p>Cero dependencia de nube de terceros. Procesamiento local, baja latencia y soberanía absoluta de datos.</p>
+      </div>
+      <div class="card">
+        <h3>2. Ciberseguridad & Cumplimiento</h3>
+        <p>Alineación estricta a ISO/IEC 27001:2022 y NIST SP 800-53 Rev. 5. Trazabilidad con hashes criptográficos SHA-256.</p>
+      </div>
+      <div class="card">
+        <h3>3. Convergencia Phyxital</h3>
+        <p>Monitoreo táctico, telemetría multimodal y respuesta operativa integrada en tiempo real.</p>
+      </div>
+    </div>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-  // 1. Inicializar mapa centrado en San Rafael, Mendoza
-  const map = L.map('map').setView([-34.6177, -68.3301], 10);
+    <h2>Especificaciones de Ciberdefensa</h2>
+    <ul>
+      <li><strong>Arquitectura Cero Confianza (Zero Trust):</strong> Control estricto de acceso y mínimo privilegio por diseño.</li>
+      <li><strong>Resiliencia de Hardware:</strong> Optimización estricta de recursos (CPU/RAM) para continuidad operativa sostenida.</li>
+      <li><strong>Gobierno de Datos:</strong> Almacenamiento y vectorización local en repositorio RAG dedicado.</li>
+    </ul>
 
-  // 2. Capa Satelital Esri World Imagery (Sin costo de API)
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; ECO-360 Phyxital Solutions'
-  }).addTo(map);
-
-  // 3. Capa de nombres y rutas de referencia
-  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    attribution: ''
-  }).addTo(map);
-
-  // 4. Ingesta dinámica del GeoJSON de los 29 Nodos
-  fetch('./mapa_nodos_eco360.geojson')
-    .then(response => response.json())
-    .then(data => {
-      L.geoJSON(data, {
-        pointToLayer: function(feature, latlng) {
-          const props = feature.properties;
-          const colorHex = props.color || '#00F0FF';
-          const radiusKm = props.cobertura_km || 3;
-
-          // Círculo de Cobertura LoRa (Sub-GHz)
-          L.circle(latlng, {
-            radius: radiusKm * 1000,
-            color: colorHex,
-            fillColor: colorHex,
-            fillOpacity: 0.15,
-            weight: 1.5,
-            dashArray: '4, 4'
-          }).addTo(map);
-
-          // Marcador central del Nodo
-          return L.circleMarker(latlng, {
-            radius: 7,
-            fillColor: colorHex,
-            color: '#FFFFFF',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.9
-          });
-        },
-        onEachFeature: function(feature, layer) {
-          const p = feature.properties;
-          const popupContent = `
-            <div class="nodo-title">${p.nombre}</div>
-            <div class="nodo-meta">📍 Tipo: ${p.tipo} | 📡 Cobertura: ${p.cobertura_km} km (${p.frecuencia})</div>
-            <div class="nodo-desc">${p.descripcion}</div>
-          `;
-          layer.bindPopup(popupContent);
-        }
-      }).addTo(map);
-    })
-    .catch(err => console.error('Error al cargar el GeoJSON de nodos:', err));
-</script>
-
+    <footer>
+      <p>ECO360 Phyxital Solution — Documento de Presentación Gubernamental — 2026</p>
+    </footer>
+  </div>
 </body>
 </html>
