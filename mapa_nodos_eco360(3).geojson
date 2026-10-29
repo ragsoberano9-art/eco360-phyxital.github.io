@@ -1,0 +1,348 @@
+{
+  "type": "FeatureCollection",
+  "name": "ECO360_Red_Nodos_Municipal_San_Rafael",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-01",
+        "nombre": "Palacio Municipal & Centro de Control Táctico",
+        "categoria": "Gobierno & Ciberdefensa",
+        "ubicacion": "San Rafael Centro (Comandante Salas & Belgrano)",
+        "coordenadas_lat_lon": [
+          -34.6177,
+          -68.3301
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#00F0FF",
+        "servicios": "Búnker Central Debian 13, Búsqueda Híbrida RAG, Botón SOS Institucional, Radar RF Pasivo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3301,
+          -34.6177
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-02",
+        "nombre": "Terminal de Ómnibus & Centro de Recepción Turística",
+        "categoria": "Turismo & Control Perimetral",
+        "ubicacion": "Av. Granaderos & Coronel Suárez",
+        "coordenadas_lat_lon": [
+          -34.6105,
+          -68.3242
+        ],
+        "radio_cobertura_km": 3.0,
+        "frecuencia": "915 MHz LoRa / BLE 5.2 / NFC",
+        "color_hex": "#00E6A5",
+        "servicios": "Control de Flujo de Pasajeros, Totem SOS Turístico, Sniffing RF Pasivo de Aproximación"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3242,
+          -34.6105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-03",
+        "nombre": "Hospital Regional Schestakow & CAPS Municipales",
+        "categoria": "Salud Pública & Emergencias",
+        "ubicacion": "Emilio Civit & Comandante Torres",
+        "coordenadas_lat_lon": [
+          -34.6228,
+          -68.3265
+        ],
+        "radio_cobertura_km": 4.0,
+        "frecuencia": "915 MHz LoRa / mmWave 24 GHz",
+        "color_hex": "#FF007F",
+        "servicios": "Telemetría Somática No Invasiva, Recepción SOS Vecinal, Alertas de Código Rojo Directas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3265,
+          -34.6228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-04",
+        "nombre": "Parque Hipólito Yrigoyen & Polideportivo Municipal",
+        "categoria": "Espacios Públicos & Eventos Masivos",
+        "ubicacion": "Av. Hipólito Yrigoyen & Ameghino",
+        "coordenadas_lat_lon": [
+          -34.6152,
+          -68.348
+        ],
+        "radio_cobertura_km": 3.0,
+        "frecuencia": "915 MHz LoRa / Wi-Fi Local (.lan)",
+        "color_hex": "#D4AF37",
+        "servicios": "Portal EcoQ de Espera y Flujo de Personas, Puntos SOS Niños/Mascotas, UbicaPet Base"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.348,
+          -34.6152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-05",
+        "nombre": "Paso Las Paredes & Acceso Aeropuerto",
+        "categoria": "Anillo de Autoprotección Perimetral Norte",
+        "ubicacion": "Ruta Nacional 143 & Las Paredes",
+        "coordenadas_lat_lon": [
+          -34.588,
+          -68.385
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa / YOLOv8 Vision Local",
+        "color_hex": "#00F0FF",
+        "servicios": "Detección Temprana de Vehículos (RF Sniffing), Filtro Cero Falsas Alarmas, Celdas Off-Grid"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.385,
+          -34.588
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-06",
+        "nombre": "Acceso Este — Cuadro Nacional",
+        "categoria": "Anillo de Autoprotección Perimetral Este",
+        "ubicacion": "Ruta Nacional 146 & Cuadro Nacional",
+        "coordenadas_lat_lon": [
+          -34.602,
+          -68.265
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#00F0FF",
+        "servicios": "Supervisión de Carga e Ingreso de Transporte, Telemetría de Cemento/Insumos, Red Vecinal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.265,
+          -34.602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-07",
+        "nombre": "Acceso Sur — Balloffet & Cuadro Benegas",
+        "categoria": "Anillo de Autoprotección Perimetral Sur",
+        "ubicacion": "Puentes del Atuel & Av. Balloffet",
+        "coordenadas_lat_lon": [
+          -34.645,
+          -68.368
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#00F0FF",
+        "servicios": "Control de Corredor Turístico Hacia el Atuel, Balizas de Auxilio Vecinal, Detección de Caudal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.368,
+          -34.645
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-08",
+        "nombre": "Valle Grande — Cañón del Atuel (RP 173)",
+        "categoria": "Corredor Turístico & Alta Montaña",
+        "ubicacion": "Ruta Provincial 173 Km 25",
+        "coordenadas_lat_lon": [
+          -34.823,
+          -68.511
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa / Repetidor Solar IP68",
+        "color_hex": "#00E6A5",
+        "servicios": "Balizas SOS Off-Grid para Senderistas/Kayakistas, UbicaPet Alquiler Turístico, Cero Cobertura 4G Requerida"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.511,
+          -34.823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-09",
+        "nombre": "Los Reyunos — Complejo Hidroeléctrico & Náutico",
+        "categoria": "Infraestructura Crítica & Turismo",
+        "ubicacion": "Dique Los Reyunos / Villa 25 de Mayo",
+        "coordenadas_lat_lon": [
+          -34.598,
+          -68.642
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa / Enlace Hidroeléctrico",
+        "color_hex": "#00E6A5",
+        "servicios": "Telemetría de Espejo de Agua, Monitoreo de Embarcaciones, Balizas SOS Náuticas"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.642,
+          -34.598
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-10",
+        "nombre": "El Nihuil — Complejo Turístico & Dique",
+        "categoria": "Infraestructura Crítica & Deportes Náuticos",
+        "ubicacion": "Dique El Nihuil",
+        "coordenadas_lat_lon": [
+          -35.025,
+          -68.681
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#00E6A5",
+        "servicios": "Estación Alerta Temprana de Viento/Tormenta, Radiofrecuencia Off-Grid, Tótems de Registro"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.681,
+          -35.025
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-11",
+        "nombre": "Distrito Real del Padre — Cinturón Agrícola Este",
+        "categoria": "Desarrollo Rural & Agrotecnología",
+        "ubicacion": "Real del Padre Centro",
+        "coordenadas_lat_lon": [
+          -34.721,
+          -67.712
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa / Telemetría P&ID",
+        "color_hex": "#D4AF37",
+        "servicios": "Alertas Tempranas de Heladas, Monitoreo P&ID de Riego, Autoprotección de Fincas y Maquinaria"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.712,
+          -34.721
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-12",
+        "nombre": "Distrito Monte Comán — Ferrocarril & Logística Regional",
+        "categoria": "Patrimonio & Logística",
+        "ubicacion": "Monte Comán Centro",
+        "coordenadas_lat_lon": [
+          -34.582,
+          -67.982
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#D4AF37",
+        "servicios": "Control de Galpones Logísticos, Monitoreo de Flotas Off-Grid, Red Vecinal Distrital"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.982,
+          -34.582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-13",
+        "nombre": "Punta del Agua — Frontera Sur Distrital",
+        "categoria": "Conectividad Social & Cobertura Extrema",
+        "ubicacion": "Punta del Agua Centro",
+        "coordenadas_lat_lon": [
+          -35.52,
+          -68.05
+        ],
+        "radio_cobertura_km": 5.0,
+        "frecuencia": "915 MHz LoRa Sub-GHz",
+        "color_hex": "#FF007F",
+        "servicios": "Micro-ISP Vecinal de Inclusión Digital, Telemetría Sanitaria, Botón SOS Comunitario"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.05,
+          -35.52
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "nodo-14",
+        "nombre": "Escuela Técnica ETP & Complejo Educativo DGE",
+        "categoria": "Educación Pública & Articulación Técnica",
+        "ubicacion": "San Rafael Centro Educativo",
+        "coordenadas_lat_lon": [
+          -34.612,
+          -68.336
+        ],
+        "radio_cobertura_km": 3.0,
+        "frecuencia": "915 MHz LoRa / Wi-Fi Edu (.lan)",
+        "color_hex": "#00E6A5",
+        "servicios": "Andamiaje Cognitivo Damián (Rafael Pino), Hardening DNS AdGuard, Laboratorio RAG Local"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.336,
+          -34.612
+        ]
+      }
+    }
+  ]
+}
