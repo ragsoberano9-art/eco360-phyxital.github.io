@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECO-360 Phyxital Solutions — Visor Cartográfico & Simulador</title>
+
+  <link rel="stylesheet" href="[suspicious link removed]" />
+
+  <style>
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #0d1117; font-family: system-ui, -apple-system, sans-serif; overflow: hidden; }
+    #map { width: 100%; height: 100vh; }
+    .panel-control { position: absolute; top: 20px; left: 20px; z-index: 1000; background: rgba(22, 27, 34, 0.92); backdrop-filter: blur(12px); border: 1px solid #30363d; border-radius: 12px; padding: 16px; color: #f0f6fc; max-width: 360px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    .panel-title { font-size: 1.2em; font-weight: 700; color: #00F0FF; margin-bottom: 4px; }
+    .panel-subtitle { font-size: 0.8em; color: #8b949e; margin-bottom: 12px; }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .filter-btn { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; font-size: 0.75em; padding: 4px 10px; border-radius: 20px; cursor: pointer; }
+    .filter-btn.active, .filter-btn:hover { background: #00F0FF; color: #0d1117; font-weight: 600; }
+    .telemetry-box { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 8px; font-family: monospace; font-size: 0.72em; color: #00E6A5; height: 50px; overflow: hidden; }
+    .leaflet-popup-content-wrapper { background: #161b22; color: #f0f6fc; border: 1px solid #30363d; border-radius: 10px; }
+    .popup-badge { display: inline-block; padding: 2px 6px; font-size: 0.7em; font-weight: 600; border-radius: 10px; margin-bottom: 4px; }
+    .popup-avatar { font-size: 0.85em; font-weight: 600; color: #FFD700; margin-bottom: 4px; background: rgba(255, 215, 0, 0.1); padding: 4px; border-radius: 4px; border-left: 3px solid #FFD700; }
+    .btn-back { position: absolute; top: 20px; right: 20px; z-index: 1000; background: #161b22; border: 1px solid #00F0FF; color: #00F0FF; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85em; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<a href="./index.html" class="btn-back">← Volver al Portal Principal</a>
+
+<div class="panel-control">
+  <div class="panel-title">🌐 ECO-360 Phyxital</div>
+  <div class="panel-subtitle">Simulador de Nodos, Previsibilidad por Diseño y Control Operativo</div>
+
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="filterMap('all')">Todos</button>
+    <button class="filter-btn" onclick="filterMap('gobierno')">🏛️ Gobierno</button>
+    <button class="filter-btn" onclick="filterMap('espera_publica')">⏳ Salas Espera</button>
+    <button class="filter-btn" onclick="filterMap('fincas')">🍇 Fincas</button>
+    <button class="filter-btn" onclick="filterMap('vecinal')">🏘️ Hub Vecinal</button>
+    <button class="filter-btn" onclick="filterMap('simulacion')">🎭 Avatares Live</button>
+    <button class="filter-btn" onclick="filterMap('ciencia_cordillera')">🏔️ El Sosneado / Auger</button>
+  </div>
+
+  <div class="telemetry-box" id="telemetryFeed">
+    <div>[15:42:01] Node_01 Búnker: Loopback OK (0 dB)</div>
+    <div>[15:42:04] EE-01 Registro Civil: Espera fluida (EcoQ)</div>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<script src="[suspicious link removed]"></script>
+<script>
+  const map = L.map('map').setView([-34.6177, -68.3301], 11);
+  L.tileLayer('[suspicious link removed]{z}/{y}/{x}', { attribution: 'Esri &mdash; ECO-360' }).addTo(map);
+  L.tileLayer('[suspicious link removed]{z}/{x}/{y}{r}.png', { attribution: '' }).addTo(map);
+
+  let geoJsonLayer = null;
+  let rawData = null;
+
+  function loadGeoJson(filterCat = 'all') {
+    if (geoJsonLayer) map.removeLayer(geoJsonLayer);
+
+    geoJsonLayer = L.geoJSON(rawData, {
+      filter: feature => filterCat === 'all' || feature.properties.categoria === filterCat,
+      pointToLayer: (feature, latlng) => {
+        const p = feature.properties;
+        const colorHex = p.color || '#00F0FF';
+        L.circle(latlng, { radius: (p.cobertura_km || 3) * 1000, color: colorHex, fillColor: colorHex, fillOpacity: 0.14, weight: 1.5, dashArray: '4,4' }).addTo(map);
+        return L.circleMarker(latlng, { radius: 8, fillColor: colorHex, color: '#FFFFFF', weight: 2, fillOpacity: 0.95 });
+      },
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties;
+        const avatarHtml = p.avatar ? `<div class="popup-avatar">${p.avatar}</div>` : '';
+        layer.bindPopup(`
+          <div class="popup-badge" style="background:${p.color}; color:#0d1117;">${p.tipo}</div>
+          <div style="font-weight:700; color:#00F0FF; margin-bottom:4px;">${p.nombre}</div>
+          ${avatarHtml}
+          <div style="font-size:0.8em; color:#8b949e; margin-bottom:6px;">📍 Frecuencia: ${p.frecuencia} | Radio: ${p.cobertura_km} km</div>
+          <div style="font-size:0.85em; color:#c9d1d9;">${p.descripcion}</div>
+        `);
+      }
+    }).addTo(map);
+  }
+
+  fetch('./mapa_nodos_eco360.geojson')
+    .then(r => r.json())
+    .then(data => { rawData = data; loadGeoJson('all'); });
+
+  function filterMap(cat) {
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    loadGeoJson(cat);
+  }
+</script>
+</body>
+</html>
