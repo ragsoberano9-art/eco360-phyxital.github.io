@@ -1,263 +1,118 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-360 Phyxital Solutions | Soberanía Tecnológica & Ciberdefensa</title>
-    
-    <!-- OpenGraph Meta Tags -->
-    <meta property="og:title" content="ECO-360 Phyxital Solutions | Búnker Local & Inferencia On-Premise">
-    <meta property="og:description" content="Infraestructura Phyxital Soberana: Tesis Anti-SaaS, Búnker Local Debian 13, Monitoreo Somático no invasivo y Soluciones Tácticas. Cero cuotas en dólares.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ragsoberano9-art.github.io/eco360-phyxital.github.io/">
-    
-    <!-- Fuentes & CDN Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bunker: '#0A0D14',
-                        card: '#121722',
-                        textPrimary: '#E0E6ED',
-                        gold: '#D4AF37',
-                        emeraldOnline: '#00E6A5',
-                        amberFocus: '#FFB000'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECO-360 Phyxital Solutions — Red de Nodos San Rafael</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0d1117;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    /* Estilo de Popup en paleta Luxury Industrial */
+    .leaflet-popup-content-wrapper {
+      background: #161b22;
+      color: #f0f6fc;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .leaflet-popup-tip {
+      background: #161b22;
+    }
+    .nodo-title {
+      font-weight: 700;
+      font-size: 1.1em;
+      color: #00F0FF;
+      margin-bottom: 4px;
+    }
+    .nodo-meta {
+      font-size: 0.85em;
+      color: #8b949e;
+      margin-bottom: 8px;
+    }
+    .nodo-desc {
+      font-size: 0.9em;
+      color: #c9d1d9;
+      line-height: 1.4;
+    }
+  </style>
 </head>
-<body class="bg-bunker text-textPrimary font-sans antialiased selection:bg-amberFocus selection:text-bunker">
+<body>
 
-    <!-- Header / Nav -->
-    <header class="sticky top-0 z-50 bg-bunker/90 backdrop-blur border-b border-gray-800/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="inline-block w-3 h-3 rounded-full bg-emeraldOnline animate-pulse"></span>
-                <span class="font-mono font-bold text-lg tracking-wider text-textPrimary">ECO-360<span class="text-gold">.PHYXITAL</span></span>
-            </div>
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
-                <a href="#manifiesto" class="hover:text-gold transition-colors">Manifiesto</a>
-                <a href="#soluciones" class="hover:text-gold transition-colors">Soluciones</a>
-                <a href="#academia" class="hover:text-gold transition-colors">Academia</a>
-                <a href="#contacto" class="hover:text-gold transition-colors">Contacto</a>
-            </nav>
-            <div class="font-mono text-xs text-amberFocus bg-card px-3 py-1.5 rounded border border-amberFocus/30">
-                Debian 13 | ISO 27001
-            </div>
-        </div>
-    </header>
+<div id="map"></div>
 
-    <!-- Hero Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-        <div class="max-w-3xl">
-            <div class="inline-flex items-center space-x-2 text-xs font-mono text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/20 mb-6">
-                <span>MÓDULO 0: TU FIXITALIDAD</span>
-            </div>
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-textPrimary leading-tight">
-                Soberanía Tecnológica & Ciberdefensa <span class="text-gold">On-Premise</span>
-            </h1>
-            <p class="mt-6 text-lg text-gray-400 leading-relaxed">
-                Arquitectura de bajo estímulo visual, cero telemetría invasiva y $0 cuotas mensuales en dólares. Control operativo local bajo estándares ISO/IEC 27001 e ISO/IEC 25010.
-            </p>
-            <div class="mt-8 flex flex-wrap gap-4 font-mono text-sm">
-                <a href="#soluciones" class="bg-gold text-bunker font-semibold px-6 py-3 rounded hover:bg-gold/90 transition-colors">
-                    Desplegar Soluciones
-                </a>
-                <a href="#manifiesto" class="bg-card text-textPrimary border border-gray-700 px-6 py-3 rounded hover:border-gold/50 transition-colors">
-                    Ver Tesis Anti-SaaS
-                </a>
-            </div>
-        </div>
-    </section>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // 1. Inicializar mapa centrado en San Rafael, Mendoza
+  const map = L.map('map').setView([-34.6177, -68.3301], 10);
 
-    <!-- Pilar 1: Manifiesto & Arquitectura Core -->
-    <section id="manifiesto" class="py-16 border-t border-gray-800/60 bg-bunker">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-textPrimary mb-2 flex items-center gap-2">
-                <span class="text-amberFocus font-mono">01.</span> Manifiesto & Arquitectura Core
-            </h2>
-            <p class="text-gray-400 mb-10 text-sm">Infraestructura local resiliente contra la dependencia cloud.</p>
+  // 2. Capa Satelital Esri World Imagery (Sin costo de API)
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; ECO-360 Phyxital Solutions'
+  }).addTo(map);
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <h3 class="text-gold font-semibold text-lg mb-2">Tesis Anti-SaaS</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Desacoplamiento total de licencias recurrentes en divisas extranjeras. Soberanía absoluta sobre datos y procesamiento.
-                    </p>
-                    <span class="font-mono text-xs text-amberFocus">$0 USD/mes por diseño</span>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <h3 class="text-gold font-semibold text-lg mb-2">Búnker Local Debian 13</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Inferencia de IA On-Premise con <code class="font-mono text-amberFocus">llama-server</code> sobre red local (.lan). Cero luz azul agresiva.
-                    </p>
-                    <span class="font-mono text-xs text-emeraldOnline">Debian 13 (Trixie) CLI</span>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <h3 class="text-gold font-semibold text-lg mb-2">Compliance & Normativa</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        Diseño alineado a ISO/IEC 27001:2022 (SGSI), ISO/IEC 25010 (Calidad) y Ley 25.326 de Protección de Datos Personales.
-                    </p>
-                    <span class="font-mono text-xs text-gold">ISO/IEC 27001 • 25010</span>
-                </div>
-            </div>
-        </div>
-    </section>
+  // 3. Capa de nombres y rutas de referencia
+  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    attribution: ''
+  }).addTo(map);
 
-    <!-- Pilar 2: Soluciones Verticales -->
-    <section id="soluciones" class="py-16 border-t border-gray-800/60 bg-bunker">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-textPrimary mb-2 flex items-center gap-2">
-                <span class="text-amberFocus font-mono">02.</span> Catálogo de Soluciones Verticales
-            </h2>
-            <p class="text-gray-400 mb-10 text-sm">Dispositivos y sistemas físicos-digitales de alta eficiencia.</p>
+  // 4. Ingesta dinámica del GeoJSON de los 29 Nodos
+  fetch('./mapa_nodos_eco360.geojson')
+    .then(response => response.json())
+    .then(data => {
+      L.geoJSON(data, {
+        pointToLayer: function(feature, latlng) {
+          const props = feature.properties;
+          const colorHex = props.color || '#00F0FF';
+          const radiusKm = props.cobertura_km || 3;
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-gold mb-2">HARDWARE DEDICADO</div>
-                    <h3 class="text-lg font-semibold mb-2">Estación Doméstica Fanless</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Mini PC Fanless (0 dB), Radar mmWave 24 GHz para monitoreo de descanso sin cámaras, Libreta E-Ink 10.3" y Credencial NFC/LoRa.
-                    </p>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-emeraldOnline mb-2">SALUD SOMÁTICA</div>
-                    <h3 class="text-lg font-semibold mb-2">Cuidado de Adultos Mayores</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Monitoreo no invasivo de constantes biométricas y caídas mediante radiofrecuencia. Cero cámaras, preservación absoluta de privacidad.
-                    </p>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-amberFocus mb-2">ALDEA CHOCO</div>
-                    <h3 class="text-lg font-semibold mb-2">Protección de Mascotas</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Collar Tri-Modal (LoRa 915 MHz, NFC pasivo, QR) acompañado de Correa Digital Invisible para geocercas activas.
-                    </p>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-gold mb-2">REDES SOBERANAS</div>
-                    <h3 class="text-lg font-semibold mb-2">Micro-ISP Vecinal</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Conectividad comunitaria con gestión de tráfico FQ-CoDel y aislamiento de clientes por <code class="font-mono text-amberFocus">nftables</code>.
-                    </p>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-emeraldOnline mb-2">OFF-GRID SOS</div>
-                    <h3 class="text-lg font-semibold mb-2">Turismo Aventura & EcoQ</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Balizas de emergencia SOS LoRa Off-Grid para paradores y gestión de flujo de atención mediante el sistema EcoQ.
-                    </p>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800">
-                    <div class="font-mono text-xs text-amberFocus mb-2">TRAZABILIDAD</div>
-                    <h3 class="text-lg font-semibold mb-2">ONG Rosin & Agrotech</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Automatización de microclima, trazabilidad reglamentaria REPROCANN y control perimetral físico-digital.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+          // Círculo de Cobertura LoRa (Sub-GHz)
+          L.circle(latlng, {
+            radius: radiusKm * 1000,
+            color: colorHex,
+            fillColor: colorHex,
+            fillOpacity: 0.15,
+            weight: 1.5,
+            dashArray: '4, 4'
+          }).addTo(map);
 
-    <!-- Pilar 3: Academia de Nativos Phyxitales -->
-    <section id="academia" class="py-16 border-t border-gray-800/60 bg-bunker">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-card border border-gold/30 rounded-xl p-8 md:p-12">
-                <div class="max-w-3xl">
-                    <span class="font-mono text-xs text-gold tracking-widest block mb-2">03. FORMACIÓN & TALENTO</span>
-                    <h2 class="text-3xl font-bold text-textPrimary mb-4">Academia de Nativos Phyxitales</h2>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Programa de transferencia tecnológica enfocado en escuelas técnicas (DGE Mendoza / INET). Promovemos la cultura CLI, la ciberdefensa ética, el pensamiento computacional y la eficiencia de recursos de hardware.
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs text-center">
-                        <div class="bg-bunker p-3 rounded border border-gray-800">
-                            <span class="text-gold block font-bold text-sm">CLI First</span> GNU/Linux TUI
-                        </div>
-                        <div class="bg-bunker p-3 rounded border border-gray-800">
-                            <span class="text-gold block font-bold text-sm">INET / DGE</span> Enfoque Técnico
-                        </div>
-                        <div class="bg-bunker p-3 rounded border border-gray-800">
-                            <span class="text-gold block font-bold text-sm">Zero Waste</span> RAM/CPU Opt.
-                        </div>
-                        <div class="bg-bunker p-3 rounded border border-gray-800">
-                            <span class="text-gold block font-bold text-sm">LoRa / Mesh</span> Redes Decentral.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pilar 4: Contacto -->
-    <section id="contacto" class="py-16 border-t border-gray-800/60 bg-bunker">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h2 class="text-2xl font-bold text-textPrimary mb-2 flex items-center gap-2">
-                        <span class="text-amberFocus font-mono">04.</span> Despliegue Llave en Mano
-                    </h2>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Infraestructura instalada, configurada e auditada in situ. San Rafael, Provincia de Mendoza, Argentina.
-                    </p>
-                    <div class="space-y-3 font-mono text-xs">
-                        <div class="flex items-center space-x-3 text-gray-300">
-                            <span class="text-gold">›</span>
-                            <span>Ubicación Hub: San Rafael, Mendoza (M5500)</span>
-                        </div>
-                        <div class="flex items-center space-x-3 text-gray-300">
-                            <span class="text-gold">›</span>
-                            <span>Estándar Operativo: ISO/IEC 27001:2022</span>
-                        </div>
-                        <div class="flex items-center space-x-3 text-gray-300">
-                            <span class="text-gold">›</span>
-                            <span>Canal Seguro Local: ntfy / Session Protocol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-card p-6 rounded-lg border border-gray-800 font-mono text-xs">
-                    <div class="text-gray-500 mb-4">// ESTADO DE OPERACIONES</div>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">NODO REGIONAL:</span>
-                            <span class="text-emeraldOnline">ACTIVO</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">INFERENCIA LOCAL:</span>
-                            <span class="text-emeraldOnline">ON-PREM (.lan)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">ESTÁNDAR SEGURIDAD:</span>
-                            <span class="text-gold">NIST SP 800-53</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-800/60 py-8 bg-bunker font-mono text-xs text-gray-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                © 2026 ECO-360 Phyxital Solutions. Todos los derechos reservados.
-            </div>
-            <div class="text-gray-600">
-                Diseño Luxury Industrial / Ámbar • Zero Bloatware
-            </div>
-        </div>
-    </footer>
+          // Marcador central del Nodo
+          return L.circleMarker(latlng, {
+            radius: 7,
+            fillColor: colorHex,
+            color: '#FFFFFF',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9
+          });
+        },
+        onEachFeature: function(feature, layer) {
+          const p = feature.properties;
+          const popupContent = `
+            <div class="nodo-title">${p.nombre}</div>
+            <div class="nodo-meta">📍 Tipo: ${p.tipo} | 📡 Cobertura: ${p.cobertura_km} km (${p.frecuencia})</div>
+            <div class="nodo-desc">${p.descripcion}</div>
+          `;
+          layer.bindPopup(popupContent);
+        }
+      }).addTo(map);
+    })
+    .catch(err => console.error('Error al cargar el GeoJSON de nodos:', err));
+</script>
 
 </body>
 </html>
