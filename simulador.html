@@ -3,420 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECO-360 Phyxital Solutions | Simulador de Campo & Observatorio 3.0</title>
+    <title>Observatorio de lo Sensitivo 3.0 | ECO-360 Phyxital Solutions</title>
     
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="[suspicious link removed]" />
-    <!-- Tipografía Monospace HUD -->
-    <link href="[suspicious link removed]" rel="stylesheet">
+    <!-- Leaflet CSS 1.9.4 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Google Font: JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #0A0A0A;
-            --panel-bg: rgba(18, 18, 18, 0.95);
-            --radar-green: #00FF66;
+            --bg-titanium: #0A0A0A;
+            --bg-panel: rgba(15, 15, 15, 0.85);
+            --border-hud: rgba(0, 255, 102, 0.2);
+            --green-radar: #00FF66;
             --amber-alert: #FFB000;
-            --gold-accent: #D4AF37;
-            --text-light: #E0E0E0;
-            --border-color: #222222;
+            --gold-bronze: #D4AF37;
+            --text-muted: #888888;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        body, html {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: var(--bg-dark);
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-light);
-            overflow: hidden;
         }
 
-        /* Layout Grid */
-        #app-container {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            grid-template-rows: 60px 1fr 220px;
+        body {
+            background-color: var(--bg-titanium);
+            color: #E0E0E0;
+            font-family: var(--font-mono);
             height: 100vh;
-            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Header HUD */
+        /* HEADER HUD */
         header {
-            grid-column: 1 / -1;
-            background: #111;
-            border-bottom: 2px solid var(--radar-green);
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid var(--border-hud);
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
         }
 
-        header h1 {
-            font-size: 1.1rem;
-            color: var(--radar-green);
-            margin: 0;
+        .brand-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--green-radar);
+            letter-spacing: 1px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .status-badge {
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid var(--radar-green);
-            color: var(--radar-green);
-            padding: 4px 10px;
+        .brand-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--green-radar);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green-radar);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .cta-button {
+            background: transparent;
+            color: var(--gold-bronze);
+            border: 1px solid var(--gold-bronze);
+            padding: 6px 14px;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
-            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Sidebar Control Panel */
-        #sidebar {
-            background: var(--panel-bg);
-            border-right: 1px solid var(--border-color);
+        .cta-button:hover {
+            background: var(--gold-bronze);
+            color: var(--bg-titanium);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        /* LAYOUT PRINCIPAL */
+        .app-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            grid-template-rows: 1fr 180px;
+            grid-template-areas: 
+                "sidebar map"
+                "sidebar terminal";
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* PANEL LATERAL */
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-hud);
             padding: 15px;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
+            z-index: 900;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
         }
 
-        .section-title {
-            color: var(--gold-accent);
-            font-size: 0.85rem;
+        .sidebar-header {
+            font-size: 0.7rem;
+            color: var(--text-muted);
             text-transform: uppercase;
-            border-bottom: 1px solid var(--gold-accent);
-            padding-bottom: 4px;
-            margin-top: 5px;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border-hud);
         }
 
         .sim-btn {
-            background: #181818;
-            border: 1px solid #333;
-            color: #fff;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(0, 255, 102, 0.15);
+            color: #C0C0C0;
             padding: 10px;
-            font-family: inherit;
-            font-size: 0.78rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s ease;
-            border-radius: 4px;
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
         }
 
         .sim-btn:hover {
-            border-color: var(--radar-green);
-            background: rgba(0, 255, 102, 0.08);
-            color: var(--radar-green);
+            border-color: var(--green-radar);
+            color: #FFF;
+            background: rgba(0, 255, 102, 0.05);
         }
 
         .sim-btn.active {
             border-color: var(--amber-alert);
-            background: rgba(255, 176, 0, 0.15);
-            color: var(--amber-alert);
-            font-weight: bold;
+            background: rgba(255, 176, 0, 0.08);
+            color: #FFF;
         }
 
-        /* Map Container */
+        .sim-btn .btn-title {
+            font-weight: 600;
+            color: var(--green-radar);
+        }
+
+        .sim-btn.active .btn-title {
+            color: var(--amber-alert);
+        }
+
+        .sim-btn .btn-sub {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* MAP CONTAINER */
         #map {
-            grid-column: 2;
-            grid-row: 2;
+            grid-area: map;
             width: 100%;
             height: 100%;
-            background: #050505;
+            background: var(--bg-titanium);
+            z-index: 100;
         }
 
-        /* Bottom Console Log & Slides */
-        #bottom-panel {
-            grid-column: 1 / -1;
-            grid-row: 3;
-            background: #0d0d0d;
-            border-top: 2px solid var(--gold-accent);
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            padding: 12px;
-            gap: 15px;
-        }
-
-        #console-log {
-            background: #000;
-            border: 1px solid #222;
+        /* TERMINAL DE TELEMETRÍA */
+        .terminal {
+            grid-area: terminal;
+            background: rgba(5, 5, 5, 0.95);
+            border-top: 1px solid var(--border-hud);
+            border-left: 1px solid var(--border-hud);
             padding: 10px;
-            font-size: 0.75rem;
-            color: var(--radar-green);
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: var(--green-radar);
             overflow-y: auto;
-            border-radius: 4px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            z-index: 800;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
         }
 
-        .log-entry {
-            margin-bottom: 4px;
-            border-bottom: 1px dashed #111;
-            padding-bottom: 2px;
-        }
-
-        /* Slides / Media Box */
-        #slides-container {
-            background: #141414;
-            border: 1px solid #333;
-            border-radius: 4px;
-            padding: 10px;
+        .terminal-header {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
         }
 
-        .slide-title {
-            color: var(--gold-accent);
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 5px;
+        .terminal-log {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
-        .slide-body {
-            font-size: 0.72rem;
-            color: #ccc;
+        .log-entry {
+            word-break: break-all;
+        }
+
+        .log-time {
+            color: var(--text-muted);
+        }
+
+        .log-warn {
+            color: var(--amber-alert);
+        }
+
+        .log-alert {
+            color: #FF3333;
+        }
+
+        /* FICHA EXPLICATIVA Y AUTORÍA (OVERLAY BOTTOM-RIGHT) */
+        .info-card {
+            position: absolute;
+            bottom: 190px;
+            right: 10px;
+            width: 320px;
+            background: var(--bg-panel);
+            border: 1px solid var(--gold-bronze);
+            padding: 12px;
+            z-index: 950;
+            font-size: 0.7rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .info-card-title {
+            color: var(--gold-bronze);
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 4px;
+        }
+
+        .info-card-desc {
+            color: #CCCCCC;
+            margin-bottom: 10px;
+            font-size: 0.68rem;
             line-height: 1.3;
         }
 
-        .author-footer {
-            font-size: 0.65rem;
-            color: #777;
-            border-top: 1px solid #222;
-            padding-top: 4px;
-            margin-top: 5px;
+        .author-box {
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+            padding-top: 8px;
+            margin-top: 6px;
+            font-size: 0.63rem;
+            color: var(--text-muted);
         }
 
-        /* Link CTA Button */
-        .cta-link {
-            display: block;
-            background: var(--gold-accent);
-            color: #000;
-            text-decoration: none;
-            text-align: center;
-            padding: 8px;
-            font-weight: bold;
-            font-size: 0.75rem;
-            border-radius: 4px;
-            margin-top: 8px;
+        .author-name {
+            color: var(--gold-bronze);
+            font-weight: 600;
         }
-        .cta-link:hover {
-            background: #e5be48;
+
+        /* CUSTOM LEAFLET OVERRIDES (DARK HUD) */
+        .leaflet-popup-content-wrapper {
+            background: rgba(10, 10, 10, 0.9) !important;
+            color: #FFF !important;
+            border: 1px solid var(--green-radar) !important;
+            border-radius: 0px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 0.7rem !important;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2) !important;
+        }
+
+        .leaflet-popup-tip {
+            background: var(--green-radar) !important;
+        }
+
+        .leaflet-container {
+            background: var(--bg-titanium) !important;
+        }
+
+        /* Custom Radar Pulse Circle CSS Animation */
+        .radar-pulse {
+            border: 2px solid var(--green-radar);
+            background: rgba(0, 255, 102, 0.1);
+            border-radius: 50%;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.3); opacity: 0.8; }
+            80%, 100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        @media (max-width: 850px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 200px 1fr 120px;
+                grid-template-areas: 
+                    "sidebar"
+                    "map"
+                    "terminal";
+            }
+            .info-card {
+                width: calc(100% - 20px);
+                right: 10px;
+                bottom: 130px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div id="app-container">
-    <!-- Header -->
     <header>
-        <h1>ECO-360 PHYXITAL // OBSERVATORIO DE LO SENSITIVO 3.0</h1>
-        <div>
-            <span class="status-badge">● RED OFF-GRID LORA 915 MHz: ACTIVA</span>
-            <span class="status-badge" style="border-color: var(--gold-accent); color: var(--gold-accent);">DEBIAN 13 CLI AIR-GAPPED</span>
+        <div class="brand-title">
+            OBSERVATORIO DE LO SENSITIVO 3.0 <span style="color: var(--text-muted); font-size: 0.7rem;">// ECO-360 PHYXITAL</span>
         </div>
+        <a href="https://ragsoberano9-art.github.io/eco360-phyxital.github.io/" target="_blank" class="cta-button">
+            ⚡ Acceder Web Principal ↗
+        </a>
     </header>
 
-    <!-- Panel Lateral de Simulaciones -->
-    <div id="sidebar">
-        <div class="section-title">Escenarios de Prueba en Vivo</div>
+    <div class="app-container">
         
-        <button class="sim-btn" onclick="runSimulation(1)">
-            <span>🔥</span> 1. Incendio en Finca (Rama Caída)
-        </button>
-        <button class="sim-btn" onclick="runSimulation(2)">
-            <span>🚨</span> 2. Intrusión Perimetral (REPROCANN)
-        </button>
-        <button class="sim-btn" onclick="runSimulation(3)">
-            <span>🏔️</span> 3. Senderista en Cañón del Atuel
-        </button>
-        <button class="sim-btn" onclick="runSimulation(4)">
-            <span>🗣️</span> 4. Turista & Mascota (Reyunos)
-        </button>
-        <button class="sim-btn" onclick="runSimulation(5)">
-            <span>🛠️</span> 5. Reclamo Vecinal & Copiloto AI
-        </button>
-        <button class="sim-btn" onclick="runSimulation(6)">
-            <span>⚡</span> 6. Barrio Somático vs Alarma
-        </button>
+        <!-- PANEL LATERAL -->
+        <aside class="sidebar">
+            <div class="sidebar-header">Escenarios de Simulación Táctica</div>
+            
+            <button class="sim-btn" onclick="runScenario(1)">
+                <span class="btn-title">1. 🔥 Incendio en Finca</span>
+                <span class="btn-sub">Rama Caída | Alerta VPD via LoRaWAN</span>
+            </button>
 
-        <a href="https://ragsoberano9-art.github.io/eco360-phyxital.github.io/" target="_blank" class="cta-link">
-            🏛️ VER PROPUESTA INTEGRAL DE GOBIERNO
-        </a>
-    </div>
+            <button class="sim-btn" onclick="runScenario(2)">
+                <span class="btn-title">2. 🚨 Intrusión Perimetral</span>
+                <span class="btn-sub">Cultivo REPROCANN | Radar mmWave + YOLOv8</span>
+            </button>
 
-    <!-- Mapa Leaflet -->
-    <div id="map"></div>
+            <button class="sim-btn" onclick="runScenario(3)">
+                <span class="btn-title">3. 🏔️ Senderista Perdido</span>
+                <span class="btn-sub">Cañón del Atuel | Globo Cautivo Repetidor</span>
+            </button>
 
-    <!-- Panel Inferior: Telemetría y Diapositivas -->
-    <div id="bottom-panel">
-        <div id="console-log">
-            <div class="log-entry">[SISTEMA]: Inicializando Observatorio 3.0 San Rafael 2027...</div>
-            <div class="log-entry">[SISTEMA]: Malla LoRa Sub-GHz (915 MHz) sincronizada en 29 Nodos.</div>
-            <div class="log-entry">[SISTEMA]: Seleccione un escenario de prueba para ejecutar la simulación...</div>
+            <button class="sim-btn" onclick="runScenario(4)">
+                <span class="btn-title">4. 🗣️ Turista & Mascota</span>
+                <span class="btn-sub">Los Reyunos | AI Nena 3 + Chapa Tri-Modal</span>
+            </button>
+
+            <button class="sim-btn" onclick="runScenario(5)">
+                <span class="btn-title">5. 🛠️ Reclamo Vecinal</span>
+                <span class="btn-sub">Plaza San Martín | Atención Triádica APC</span>
+            </button>
+
+            <button class="sim-btn" onclick="runScenario(6)">
+                <span class="btn-title">6. ⚡ Barrio Somático</span>
+                <span class="btn-sub">Barrio Unimev | Red Silenciosa SHA-256</span>
+            </button>
+        </aside>
+
+        <!-- MAPA -->
+        <div id="map"></div>
+
+        <!-- FICHA INFORMATIVA EN PANTALLA -->
+        <div class="info-card" id="infoCard">
+            <div class="info-card-title" id="cardTitle">SELECCIONE ESCENARIO</div>
+            <div class="info-card-desc" id="cardDesc">
+                Haga clic en cualquiera de los 6 botones tácticos para desplegar la telemetría, el marcador operativo y el radio de cobertura en el nodo correspondiente de San Rafael.
+            </div>
+            <div class="author-box">
+                <span class="author-name">José Ignacio Miani</span>. Técnico en Seguridad Pública.<br>
+                Ex-enforcement Entornos físicos y digitales, y sus sombras.<br>
+                Creador de <strong>ECO360 Phyxital Solutions ®</strong>
+            </div>
         </div>
 
-        <div id="slides-container">
-            <div>
-                <div class="slide-title" id="slide-title">FICHA TÉCNICA DE LA PLATAFORMA</div>
-                <div class="slide-body" id="slide-body">
-                    Plataforma Soberana Anti-SaaS con $0 ARS/mes en licencias fijas. Percepción somática ciega con radar mmWave 24 GHz, eBikes de rueda ancha y Búnker Air-Gapped.
-                </div>
+        <!-- TERMINAL DE TELEMETRÍA -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <span>CONSOLA DE TELEMETRÍA EN TIEMPO REAL [TUI-LOG]</span>
+                <span id="statusIndicator" style="color: var(--green-radar);">ESTADO: ONLINE</span>
             </div>
-            <div class="author-footer">
-                <strong>Autor:</strong> José Ignacio Miani | Técnico en Seguridad Pública<br>
-                Ex-Enforcement Entornos Físicos y Digitales | Creador ECO360 Phyxital Solutions ®
+            <div class="terminal-log" id="terminalLog">
+                <div class="log-entry"><span class="log-time">[00:00:00]</span> Nodos de enlace iniciados. Kernel 6.12 CLI listo. Esperando comandos...</div>
             </div>
         </div>
+
     </div>
-</div>
 
-<!-- Leaflet JS -->
-<script src="[suspicious link removed]"></script>
+    <!-- Leaflet JS 1.9.4 -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<script>
-    // Inicializar Mapa centrado en San Rafael, Mendoza
-    const map = L.map('map', {
-        center: [-34.6177, -68.3301],
-        zoom: 12,
-        zoomControl: false
-    });
+    <script>
+        // Inicialización del Mapa
+        const initialCoords = [-34.6177, -68.3301]; // San Rafael Centro
+        const map = L.map('map', {
+            zoomControl: false
+        }).setView(initialCoords, 12);
 
-    // Layer Oscuro CartoDB DarkMatter
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        maxZoom: 18
-    }).addTo(map);
+        // Control de zoom posicionado
+        L.control.zoom({ position: 'topright' }).addTo(map);
 
-    L.control.zoom({ position: 'topright' }).addTo(map);
+        // Capa CartoDB DarkMatter
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
 
-    let activeMarkers = [];
-    let activeCircles = [];
+        // Variables de Control Táctico
+        let activeLayers = [];
 
-    function clearMap() {
-        activeMarkers.forEach(m => map.removeLayer(m));
-        activeCircles.forEach(c => map.removeLayer(c));
-        activeMarkers = [];
-        activeCircles = [];
-    }
+        // Definición de Escenarios
+        const scenarios = {
+            1: {
+                title: "🔥 Incendio en Finca (Rama Caída)",
+                coords: [-34.6650, -68.3850],
+                zoom: 14,
+                color: "#FFB000", // Ámbar Alerta
+                radius: 1200,
+                desc: "Monitoreo agrometeorológico LoRaWAN. Detección temprana de alteración en el Deficit de Presión de Vapor (VPD) e incremento abrupto de temperatura foliar pre-incendio.",
+                logs: [
+                    "[LORA-NODE-04] Alerta recibida via gateway Rama Caída.",
+                    "[SENSOR-VPD] Caída crítica en humedad relativa: 11%. Temp: 38.4°C.",
+                    "[ALGORITMO-FIRE] Probabilidad de ignición espontánea > 88%.",
+                    "[PROTOCOLO] Notificación enviada a brigada de finca y consorcio de riego."
+                ]
+            },
+            2: {
+                title: "🚨 Intrusión Perimetral (REPROCANN)",
+                coords: [-34.5850, -68.3050],
+                zoom: 16,
+                color: "#FF3333", // Rojo Alerta
+                radius: 400,
+                desc: "Defensa física-digital triádica en cultivo medicinal autorizado. Radar Doppler mmWave 24 GHz combinado con visión sintética YOLOv8 para clasificación de vectores en 2D.",
+                logs: [
+                    "[RADAR-24GHZ] Traza Doppler detectada a 180m del cerco W.",
+                    "[YOLOV8-EDGE] Clasificación de vector: 'Humano sin autorización' (Confianza: 94%).",
+                    "[ILUMINACIÓN-IR] Focos estroboscópicos activados. Hash de evento grabado.",
+                    "[BÚNKER] Disparo de alerta silenciosa al teléfono de campo vía ntfy/Session."
+                ]
+            },
+            3: {
+                title: "🏔️ Senderista Perdido (Atuel / Valle Grande)",
+                coords: [-34.8250, -68.5150],
+                zoom: 13,
+                color: "#00FF66", // Verde Radar
+                radius: 3500,
+                desc: "Búsqueda y rescate en zona de sombra celular. Despliegue de Globo Cautivo Repetidor LoRa/Mesh para triangulación de baliza táctica y copiloto de emergencias.",
+                logs: [
+                    "[SOG-MESH] Búsqueda iniciada en Cañón del Atuel.",
+                    "[GLOBO-CAUTIVO] Nodo repetidor elevado a 120m AGL. Cobertura radiosombra activa.",
+                    "[PING-TRIANGULATION] Baliza detectada en coordenadas S34°49.5' W68°30.9'.",
+                    "[TELEMETRÍA] Batería de terminal de rescate: 42%. Estado vital reportado: Estable."
+                ]
+            },
+            4: {
+                title: "🗣️ Turista & Mascota (Los Reyunos)",
+                coords: [-34.5950, -68.6350],
+                zoom: 14,
+                color: "#D4AF37", // Oro/Bronce
+                radius: 1500,
+                desc: "Asistencia turística resiliente sin infraestructura. Integración de Chapa Tri-Modal NFC/QR para identificación de mascotas y Copiloto AI local Nena 3.",
+                logs: [
+                    "[NFC-PASSIVE] Chapa escaneada en Club Hidronave.",
+                    "[COPILOTO-AI] Inferencia local ejecutada en micro-servidor de borde.",
+                    "[TRI-MODAL] Mascota 'Toby' identificada. Notificación SMS p2p enviada al tutor.",
+                    "[MENDOZA-TURISMO] Punto de interés y mapa descargable fuera de línea servido."
+                ]
+            },
+            5: {
+                title: "🛠️ Reclamo Vecinal (Plaza San Martín)",
+                coords: [-34.6177, -68.3301],
+                zoom: 17,
+                color: "#00FF66", // Verde Radar
+                radius: 300,
+                desc: "Atención Triádica APC (Ciudadano-Entorno-Municipio). Captura estructurada de reportes sobre infraestructura urbana con validación de hashes de integridad.",
+                logs: [
+                    "[APC-DISPATCH] Reporte ciudadano recibido desde Plaza San Martín.",
+                    "[ANOMALÍA] Luminaria apagada & corte de fibra óptica en nodo municipal.",
+                    "[EMACS-ORG] Ticket #2026-10-8801 generado automáticamente bajo ISO 27001.",
+                    "[HASH-AUDIT] SHA-256 verificado e ingestado en base ChromaDB local."
+                ]
+            },
+            6: {
+                title: "⚡ Barrio Somático vs. Alarma (Barrio Unimev)",
+                coords: [-34.6320, -68.3180],
+                zoom: 16,
+                color: "#FFB000", // Ámbar Alerta
+                radius: 600,
+                desc: "Red comunitaria resiliente. Reemplazo de alarmas sonoras tradicionales por Red Silenciosa SHA-256 con pings criptográficos p2p de disuasión y auxilio coordinado.",
+                logs: [
+                    "[BARRIO-SOMÁTICO] Pulsación de pánico activada en Nodo Vecinal 12.",
+                    "[CRYPT-MESH] Difusión P2P con firma SHA-256 completada en 42ms.",
+                    "[DISUASIÓN] Activación de luces perimetrales coordinadas en la manzana.",
+                    "[BÚNKER-MENDOZA] Registro de evento inmutable. Red comunitaria en alerta."
+                ]
+            }
+        };
 
-    function logMessage(msg) {
-        const consoleEl = document.getElementById('console-log');
-        const timestamp = new Date().toLocaleTimeString();
-        consoleEl.innerHTML += `<div class="log-entry">[${timestamp}] ${msg}</div>`;
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-    }
-
-    function updateSlide(title, text) {
-        document.getElementById('slide-title').innerText = title;
-        document.getElementById('slide-body').innerText = text;
-    }
-
-    // SIMULACIONES
-    function runSimulation(id) {
-        clearMap();
-        
-        if (id === 1) { // INCENDIO FINCA
-            map.flyTo([-34.6650, -68.2500], 14);
+        function logToTerminal(message, type = "normal") {
+            const terminalLog = document.getElementById('terminalLog');
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
             
-            const fincaPos = [-34.6650, -68.2500];
-            const marker = L.marker(fincaPos).addTo(map).bindPopup("<b>Finca Rama Caída</b><br>Sensor VPD: Alerta Térmica 42°C").openPopup();
-            const circle = L.circle(fincaPos, { color: '#FFB000', fillColor: '#FFB000', fillOpacity: 0.3, radius: 800 }).addTo(map);
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
             
-            activeMarkers.push(marker);
-            activeCircles.push(circle);
+            let colorClass = "";
+            if (type === "warn") colorClass = "log-warn";
+            if (type === "alert") colorClass = "log-alert";
 
-            logMessage("<span style='color:#FFB000;'>🔥 ALERTA TÉRMICA:</span> Sensor agrometeorológico detecta riesgo de incendio en Rama Caída.");
-            logMessage("[LoRa 915 MHz]: Envasando paquete cifrado AES-128 hacia Nodo 13...");
-            setTimeout(() => {
-                logMessage("<span style='color:#00FF66;'>✔ DESPACHO BÚNKER 3.0:</span> Notificación recibida en 1.8 segundos. Brigada Rural y Bomberos alertados.");
-            }, 1200);
-
-            updateSlide("ESCENARIO 1: PREVENCIÓN DE INCENDIOS EN FINCAS", 
-                "Sensores perimetrales Off-Grid calculan la Presión de Vapor (VPD) y transmiten la emergencia por LoRaWAN a 5 km sin necesidad de conectividad celular o internet comercial.");
-
-        } else if (id === 2) { // INTRUSIÓN FINCA
-            map.flyTo([-34.6300, -68.3900], 15);
-            
-            const pos = [-34.6300, -68.3900];
-            const m1 = L.marker(pos).addTo(map).bindPopup("<b>Cultivo REPROCANN</b><br>Radar mmWave 24 GHz: Vector 2D Detectado").openPopup();
-            const c1 = L.circle(pos, { color: '#00FF66', fillColor: '#00FF66', fillOpacity: 0.2, radius: 300 }).addTo(map);
-            
-            activeMarkers.push(m1);
-            activeCircles.push(c1);
-
-            logMessage("<span style='color:#00FF66;'>🚨 MOVIMIENTO SOMÁTICO:</span> Radar mmWave detecta intrusión. YOLOv8 Edge filtra fauna/viento.");
-            logMessage("[Vector 2D]: Coordenadas cartesianas (X: 14.2, Y: 8.5) enviadas a eBike APC Anillo 2.");
-            logMessage("[PRIVACIDAD]: 0% cámaras ópticas. 0% rostros grabados (Ley N° 25.326).");
-
-            updateSlide("ESCENARIO 2: PERCEPCIÓN SOMÁTICA NO ÓPTICA", 
-                "El radar FMCW atravesando vegetación vectoriza la presencia humana sin capturar imágenes, enviando la alerta en < 3s a la eBike del Agente APC y al CEO 911.");
-
-        } else if (id === 3) { // SENDERISTA PERDIDO
-            map.flyTo([-34.8200, -68.3500], 13);
-            
-            const pos = [-34.8200, -68.3500];
-            const m = L.marker(pos).addTo(map).bindPopup("<b>Valle Grande - Cañón del Atuel</b><br>Baliza LoRa SOS Activada").openPopup();
-            const c = L.circle(pos, { color: '#D4AF37', fillColor: '#D4AF37', fillOpacity: 0.2, radius: 1500 }).addTo(map);
-            
-            activeMarkers.push(m);
-            activeCircles.push(c);
-
-            logMessage("<span style='color:#D4AF37;'>🏔️ RESCATE EN MONTAÑA:</span> Turista activa botón SOS en chapa tri-modal.");
-            logMessage("[GLOBO CAUTIVO]: Despliegue de antena flotante repetidora a 50m de altura.");
-            logMessage("[RESCATE]: Posición geolocalizada en Observatorio 3.0. Agente APC eBike en camino.");
-
-            updateSlide("ESCENARIO 3: COBERTURA TURÍSTICA EN SOMBRA CELULAR", 
-                "Los globos aerostáticos cautivos actúan como repetidores silenciosos Off-Grid en quebradas donde no llega el 4G, garantizando la búsqueda segura.");
-
-        } else if (id === 4) { // TURISTA Y MASCOTA
-            map.flyTo([-34.5950, -68.3850], 15);
-            
-            const pos = [-34.5950, -68.3850];
-            const m = L.marker(pos).addTo(map).bindPopup("<b>Embarcadero Los Reyunos</b><br>Agente APC + Copiloto AI (Nena 3)").openPopup();
-            
-            activeMarkers.push(m);
-
-            logMessage("🗣️ ASISTENCIA MULTILINGÜE: Agente APC atiende turista en inglés con Copiloto AI.");
-            logMessage("[NFC PASIVO]: Lectura de chapa UbicaPet en titanio IP68.");
-            logMessage("[ÉXITO]: Mascota reunificada con su familia sin consumir datos celulares.");
-
-            updateSlide("ESCENARIO 4: UX TURÍSTICA & HOSPITALIDAD", 
-                "Integración del Módulo 5 (Copiloto AI) y el sistema UbicaPet para resolver contingencias turísticas con empatía y respuesta computacional en segundos.");
-
-        } else if (id === 5) { // RECLAMO VECINAL
-            map.flyTo([-34.6177, -68.3301], 16);
-            
-            const pos = [-34.6177, -68.3301];
-            const m = L.marker(pos).addTo(map).bindPopup("<b>Plaza San Martín</b><br>Atención Triádica Agente APC + Vecino").openPopup();
-            
-            activeMarkers.push(m);
-
-            logMessage("🛠️ ATENCIÓN EN CALLE: Vecino consulta por filtración y conflicto de vereda.");
-            logMessage("[RAG LOCAL]: Inferencia local en Búnker Debian 13 CLI (ChromaDB + llama-server).");
-            logMessage("[ECOQ]: Generación de expediente digital y turno PWA en < 30 segundos.");
-
-            updateSlide("ESCENARIO 5: CO-RESOLUCIÓN COMPUTACIONAL EN CAMPO", 
-                "El Agente APC utiliza el pensamiento computacional para desglosar la incertidumbre del ciudadano y entregarle un plan de acción inmediato.");
-
-        } else if (id === 6) { // BARRIO VS ALARMA
-            map.flyTo([-34.6100, -68.3400], 15);
-            
-            const pos = [-34.6100, -68.3400];
-            const m = L.marker(pos).addTo(map).bindPopup("<b>Barrio Unimev</b><br>Ecosistema Somático Activo").openPopup();
-            const c = L.circle(pos, { color: '#00FF66', fillColor: '#00FF66', fillOpacity: 0.15, radius: 500 }).addTo(map);
-            
-            activeMarkers.push(m);
-            activeCircles.push(c);
-
-            logMessage("<span style='color:#FFB000;'>⚡ COMPARATIVA:</span> Alarma tradicional (pánico / 110 dB / 95% falsos positivos) DESESTIMADA.");
-            logMessage("<span style='color:#00FF66;'>✔ RED ECO-360:</span> Percepción silenciosa mmWave detecta anomalía y despacha alerta cifrada con Hash SHA-256 al CEO 911 en 3.8s.");
-
-            updateSlide("ESCENARIO 6: SUPERACIÓN DE LAS ALARMAS COMUNITARIAS", 
-                "Sustitución de las sirenas ruidosas e ineficientes por percepción somática precisa que conecta directo al CEO 911 con respaldo criptográfico ISO 27001.");
+            entry.innerHTML = `<span class="log-time">[${timeStr}]</span> <span class="${colorClass}">${message}</span>`;
+            terminalLog.appendChild(entry);
+            terminalLog.scrollTop = terminalLog.scrollHeight;
         }
-    }
-</script>
 
+        function clearLayers() {
+            activeLayers.forEach(layer => map.removeLayer(layer));
+            activeLayers = [];
+        }
+
+        function runScenario(id) {
+            const sc = scenarios[id];
+            if (!sc) return;
+
+            // Actualizar botones UI
+            const buttons = document.querySelectorAll('.sim-btn');
+            buttons.forEach((btn, index) => {
+                if (index === id - 1) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            // Limpiar capa previa
+            clearLayers();
+
+            // Vuelo suave hacia coordenadas
+            map.flyTo(sc.coords, sc.zoom, {
+                animate: true,
+                duration: 1.5
+            });
+
+            // Dibujar Radio de Cobertura / Impacto
+            const circle = L.circle(sc.coords, {
+                color: sc.color,
+                fillColor: sc.color,
+                fillOpacity: 0.15,
+                radius: sc.radius,
+                weight: 1.5,
+                dashArray: '4, 8'
+            }).addTo(map);
+
+            // Marcador Estilo Tactical Icon
+            const marker = L.circleMarker(sc.coords, {
+                radius: 8,
+                color: '#000000',
+                weight: 2,
+                fillColor: sc.color,
+                fillOpacity: 1
+            }).addTo(map);
+
+            // Tooltip / Popup
+            marker.bindPopup(`<b>${sc.title}</b><br><span style="color:#A0A0A0; font-size:0.65rem;">COORD: ${sc.coords[0].toFixed(4)}, ${sc.coords[1].toFixed(4)}</span>`).openPopup();
+
+            activeLayers.push(circle, marker);
+
+            // Actualizar Ficha Explicativa
+            document.getElementById('cardTitle').innerText = sc.title;
+            document.getElementById('cardTitle').style.color = sc.color;
+            document.getElementById('cardDesc').innerText = sc.desc;
+
+            // Log de Telemetría paso a paso
+            logToTerminal(`---> EJECUTANDO ESCENARIO ${id}: ${sc.title}`, "warn");
+            sc.logs.forEach((log, index) => {
+                setTimeout(() => {
+                    logToTerminal(log, index === sc.logs.length - 1 ? "alert" : "normal");
+                }, (index + 1) * 400);
+            });
+        }
+
+        // Log de inicio
+        window.addEventListener('load', () => {
+            logToTerminal("ECO-360 Phyxital Core v3.0 listo.", "normal");
+            logToTerminal("Soberanía tecnológica, eficiencia de recursos y cero desperdicio CPU/RAM.", "warn");
+        });
+    </script>
 </body>
 </html>
