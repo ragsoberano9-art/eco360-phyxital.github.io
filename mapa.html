@@ -52,8 +52,10 @@
 <script src="[suspicious link removed]"></script>
 <script>
   const map = L.map('map').setView([-34.6177, -68.3301], 11);
-  L.tileLayer('[suspicious link removed]{z}/{y}/{x}', { attribution: 'Esri &mdash; ECO-360' }).addTo(map);
-  L.tileLayer('[suspicious link removed]{z}/{x}/{y}{r}.png', { attribution: '' }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+  }).addTo(map);
 
   let geoJsonLayer = null;
   let rawData = null;
