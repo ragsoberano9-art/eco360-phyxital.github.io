@@ -11,18 +11,18 @@
       --text: #c9d1d9;
       --accent: #2ea043;
       --border: #30363d;
+      --active: #1f6feb;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
       background-color: var(--bg);
       color: var(--text);
       margin: 0;
-      padding: 2rem;
-      line-height: 1.6;
+      padding: 1.5rem;
+      line-height: 1.5;
     }
-    .container { max-width: 900px; margin: 0 auto; }
-    h1 { color: #58a6ff; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-    h2 { color: #79c0ff; margin-top: 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { color: #58a6ff; margin-bottom: 0.2rem; }
     .badge {
       display: inline-block;
       background: var(--card-bg);
@@ -31,45 +31,88 @@
       border-radius: 4px;
       font-size: 0.85rem;
       color: var(--accent);
+      margin-bottom: 1rem;
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    
+    /* Layout de Módulos */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1rem 0; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
-    ul { padding-left: 1.2rem; }
-    footer { margin-top: 3rem; font-size: 0.8rem; color: #8b949e; border-top: 1px solid var(--border); padding-top: 1rem; }
+    
+    /* Visor Integrado */
+    .viewer-panel { margin-top: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
+    .nav-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .tab-btn {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .tab-btn.active { background: var(--active); border-color: var(--active); color: #fff; }
+    iframe { width: 100%; height: 500px; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
+    
+    /* Descargas / Telemetría */
+    .btn-link {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: #58a6ff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    footer { margin-top: 2rem; font-size: 0.8rem; color: #8b949e; border-top: 1px solid var(--border); padding-top: 1rem; }
   </style>
 </head>
 <body>
   <div class="container">
     <span class="badge">Ecosistema Soberano & Defensivo</span>
     <h1>ECO360 PHYXITAL SOLUTION GOVERNMENT</h1>
-    <p><strong>Soberanía Tecnológica, Operaciones Críticas e Inteligencia Descentralizada.</strong></p>
+    <p>Soberanía Tecnológica, Operaciones Tácticas Críticas e Inteligencia Descentralizada.</p>
 
-    <h2>Pilares del Sistema</h2>
+    <!-- Módulos Principales -->
     <div class="grid">
       <div class="card">
-        <h3>1. Infraestructura Local & Edge</h3>
-        <p>Cero dependencia de nube de terceros. Procesamiento local, baja latencia y soberanía absoluta de datos.</p>
+        <h3>Simulador de Consola</h3>
+        <p>Entorno de simulación en tiempo real.</p>
+        <a href="simulador.html" target="_blank" class="btn-link">Abrir Simulador ↗</a>
       </div>
       <div class="card">
-        <h3>2. Ciberseguridad & Cumplimiento</h3>
-        <p>Alineación estricta a ISO/IEC 27001:2022 y NIST SP 800-53 Rev. 5. Trazabilidad con hashes criptográficos SHA-256.</p>
+        <h3>Mapa Operativo</h3>
+        <p>Visualización geoespacial de nodos.</p>
+        <a href="mapa.html" target="_blank" class="btn-link">Abrir Mapa Full ↗</a>
       </div>
       <div class="card">
-        <h3>3. Convergencia Phyxital</h3>
-        <p>Monitoreo táctico, telemetría multimodal y respuesta operativa integrada en tiempo real.</p>
+        <h3>GeoJSON / Telemetría</h3>
+        <p>Capa de datos vectoriales tácticos.</p>
+        <a href="mapa_nodos_eco360(5).geojson" download class="btn-link">Data GeoJSON 📄</a>
       </div>
     </div>
 
-    <h2>Especificaciones de Ciberdefensa</h2>
-    <ul>
-      <li><strong>Arquitectura Cero Confianza (Zero Trust):</strong> Control estricto de acceso y mínimo privilegio por diseño.</li>
-      <li><strong>Resiliencia de Hardware:</strong> Optimización estricta de recursos (CPU/RAM) para continuidad operativa sostenida.</li>
-      <li><strong>Gobierno de Datos:</strong> Almacenamiento y vectorización local en repositorio RAG dedicado.</li>
-    </ul>
+    <!-- Visor Dinámico en vivo -->
+    <div class="viewer-panel">
+      <h2>Panel Táctico en Vivo</h2>
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('mapa.html', this)">Ver Mapa Nodos</button>
+        <button class="tab-btn" onclick="switchTab('simulador.html', this)">Ver Simulador</button>
+      </div>
+      <iframe id="main-frame" src="mapa.html"></iframe>
+    </div>
 
     <footer>
-      <p>ECO360 Phyxital Solution — Documento de Presentación Gubernamental — 2026</p>
+      <p>ECO360 Phyxital Solution Government — Presentación Ejecutiva — 2026</p>
     </footer>
   </div>
+
+  <script>
+    function switchTab(url, btn) {
+      document.getElementById('main-frame').src = url;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
 </body>
 </html>
