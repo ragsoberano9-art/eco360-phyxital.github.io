@@ -1,0 +1,42 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="🌐 Portal Web & Git" focus=true {
+        pane split_direction="vertical" {
+            pane size="60%" name="📝 Emacs / Editor Web (mapa.html / index.html)" {
+                command "emacs"
+                args "-nw" "mapa.html"
+            }
+            pane size="40%" split_direction="horizontal" {
+                pane size="50%" name="⚡ Servidor Web Local (.lan :8080)" {
+                    command "python3"
+                    args "-m" "http.server" "8080"
+                }
+                pane size="50%" name="🚀 Git & Consola de Despliegue GitHub Pages" {
+                    focus true
+                }
+            }
+        }
+    }
+
+    tab name="🛰️ Mapa 3D & Telemetría CLI" {
+        pane split_direction="vertical" {
+            pane size="65%" name="🌐 Visor Terminal de Nodos & Avatares 3D" {
+                command "python3"
+                args "./map_console_viewer.py"
+            }
+            pane size="35%" name="📡 Feed de Telemetría & Audit Logs" {
+                command "tail"
+                args "-f" "/tmp/eco360_telemetry.log"
+            }
+        }
+    }
+}

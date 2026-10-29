@@ -1,0 +1,360 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3301,
+          -34.6177
+        ]
+      },
+      "properties": {
+        "id": "node_01",
+        "nombre": "Nodo 01 — Palacio Municipal & Búnker Central",
+        "tipo": "Búnker Central & Hub RAG",
+        "cobertura_km": 5.0,
+        "frecuencia": "LoRa 915 MHz / 127.0.0.1",
+        "color": "#00F0FF",
+        "categoria": "gobierno",
+        "descripcion": "Servidor Debian 13 CLI (0 dB, Air-Gapped) con IA RAG Soberana. Orquestación general de la red y ciberdefensa ISO 27001."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3242,
+          -34.6105
+        ]
+      },
+      "properties": {
+        "id": "node_02",
+        "nombre": "Nodo 02 — Terminal de Ómnibus & Centro Turístico",
+        "tipo": "Hub Urbano & Confluencia",
+        "cobertura_km": 3.0,
+        "frecuencia": "LoRa / BLE / NFC",
+        "color": "#00E6A5",
+        "categoria": "gobierno",
+        "descripcion": "Sniffing RF pasivo para medición no invasiva de flujo turistico y tótem de asistencia PWA offline."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3285,
+          -34.6162
+        ]
+      },
+      "properties": {
+        "id": "node_micro_01",
+        "nombre": "Micro-Nodo EE-01 — Registro Civil Central & Licencias",
+        "tipo": "Previsibilidad en Espera (EcoQ)",
+        "cobertura_km": 1.0,
+        "frecuencia": "NFC / LoRa Local / PWA",
+        "color": "#FFD700",
+        "categoria": "espera_publica",
+        "avatar": "Ciudadano en sala de espera amigable",
+        "descripcion": "Módulo EcoQ de gestión sensorial de turnos anónimos. Cero hacinamiento, el vecino espera desde un café cercano con alerta PWA sin estrés."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.332,
+          -34.619
+        ]
+      },
+      "properties": {
+        "id": "node_micro_02",
+        "nombre": "Micro-Nodo EE-02 — Delegación ANSES & Juzgados de Paz",
+        "tipo": "Previsibilidad en Espera (EcoQ)",
+        "cobertura_km": 1.0,
+        "frecuencia": "NFC / LoRa Local",
+        "color": "#FFD700",
+        "categoria": "espera_publica",
+        "avatar": "Adulto mayor recibiendo atención ágil",
+        "descripcion": "Turnero anónimo con confirmación en pantalla E-Ink y vibración LoRa. Elimina filas a la intemperie y promueve el trato digno."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.326,
+          -34.622
+        ]
+      },
+      "properties": {
+        "id": "node_micro_03",
+        "nombre": "Micro-Nodo EE-03 — Centro de Salud y Consultorios CAPS Central",
+        "tipo": "Previsibilidad Médica y Triage",
+        "cobertura_km": 1.5,
+        "frecuencia": "mmWave 24GHz / LoRa",
+        "color": "#FFD700",
+        "categoria": "espera_publica",
+        "avatar": "Enfermera y paciente en sala pacífica",
+        "descripcion": "Medición somática pasiva de signos en sala de espera. Alerta temprana de descompensación sin cables ni cámaras invasivas."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.395,
+          -34.591
+        ]
+      },
+      "properties": {
+        "id": "node_agro_01",
+        "nombre": "Nodo Agro-01 — Finca Vitivinícola Las Paredes",
+        "tipo": "Escudo de Heladas e Incendios",
+        "cobertura_km": 4.0,
+        "frecuencia": "LoRa 915 MHz Sub-GHz",
+        "color": "#FF5722",
+        "categoria": "fincas",
+        "avatar": "Productor activando riego anti-helada",
+        "descripcion": "Red de micro-sensores de temperatura de bulbo húmedo y ópticos de humo a 5 km. Alerta temprana antes de que la temperatura baje del punto crítico."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.42,
+          -34.63
+        ]
+      },
+      "properties": {
+        "id": "node_agro_02",
+        "nombre": "Nodo Agro-02 — Finca Frutícola & Bodega Cuadro Benegas",
+        "tipo": "Escudo Agroindustrial & Pañol",
+        "cobertura_km": 5.0,
+        "frecuencia": "LoRa / NFC / P&ID",
+        "color": "#FF5722",
+        "categoria": "fincas",
+        "avatar": "Operario verificando pañol y tractores",
+        "descripcion": "Monitoreo de heladas tardías, horómetro de tractores con NFC, trazabilidad de herramental y alerta de incendio perimetral."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.22,
+          -34.65
+        ]
+      },
+      "properties": {
+        "id": "node_agro_03",
+        "nombre": "Nodo Agro-03 — Finca Olivarera Cañada Seca & Salto de las Rosas",
+        "tipo": "Escudo de Heladas & Canal de Riego",
+        "cobertura_km": 5.0,
+        "frecuencia": "LoRa Sub-GHz",
+        "color": "#FF5722",
+        "categoria": "fincas",
+        "avatar": "Riego automatizado por caudal métrico",
+        "descripcion": "Sensores térmicos de suelo y copa, control P&ID de compuertas de riego y alarma vecinal anti-colecta furtiva."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.342,
+          -34.613
+        ]
+      },
+      "properties": {
+        "id": "node_vecinal_01",
+        "nombre": "Hub Vecinal 01 — Barrio Unimev / Av. Sarmiento",
+        "tipo": "Sintiendo el Espacio Público",
+        "cobertura_km": 2.0,
+        "frecuencia": "LoRa 915 MHz / ESP-NOW / RF",
+        "color": "#9C27B0",
+        "categoria": "vecinal",
+        "avatar": "Familia tranquila en su jardín",
+        "descripcion": "Hub de micro-esquina que censa alteraciones acústicas anómalas (frenadas, rotura de cristales, gritos) y cambios bruscos de flujo sin filmar rostros."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.318,
+          -34.625
+        ]
+      },
+      "properties": {
+        "id": "node_vecinal_02",
+        "nombre": "Hub Vecinal 02 — Barrio Constitución / Av. Mitre Este",
+        "tipo": "Sintiendo el Espacio Público",
+        "cobertura_km": 2.0,
+        "frecuencia": "LoRa / Radar Pasivo",
+        "color": "#9C27B0",
+        "categoria": "vecinal",
+        "avatar": "Vecinos conectados en red de auxilio",
+        "descripcion": "Previsión de intrusiones en techos/perímetros por radar de micro-ondas 24GHz en vía pública y botón SOS LoRa directo entre casas ($0 cuotas)."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.351,
+          -34.628
+        ]
+      },
+      "properties": {
+        "id": "node_vecinal_03",
+        "nombre": "Hub Vecinal 03 — Barrio Rawson / Av. Balloffet Norte",
+        "tipo": "Previsión de Tránsito & Conglomeraciones",
+        "cobertura_km": 2.0,
+        "frecuencia": "YOLOv8 Local / LoRa",
+        "color": "#9C27B0",
+        "categoria": "vecinal",
+        "avatar": "Sujetos simulados cruzando la avenida",
+        "descripcion": "Detección de congestión o accidentes viales en cruces peligrosos mediante IA de borde local. Dispara alerta inmediata a emergencias."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.365,
+          -34.615
+        ]
+      },
+      "properties": {
+        "id": "node_use_01",
+        "nombre": "Caso de Uso — Aldea Choco & Red UbicaPet",
+        "tipo": "Mascota en Entorno Seguro",
+        "cobertura_km": 3.0,
+        "frecuencia": "LoRa / BLE / NFC",
+        "color": "#00E6A5",
+        "categoria": "simulacion",
+        "avatar": "🐕 Perro 'Choco' con Collar Phyxital",
+        "descripcion": "Avatar de mascota con correa digital invisible BLE. Si sale de la geocerca de la guardería, la mesa IT 24/7 y el dueño reciben alerta en <2 segundos."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.3312,
+          -34.6185
+        ]
+      },
+      "properties": {
+        "id": "node_use_02",
+        "nombre": "Caso de Uso — Búnker Jurídico 'LEX SOBERANA 360'",
+        "tipo": "Protección de Secreto Profesional",
+        "cobertura_km": 1.0,
+        "frecuencia": "127.0.0.1 / mmWave 24GHz",
+        "color": "#00F0FF",
+        "categoria": "simulacion",
+        "avatar": "⚖️ Abogado en Audiencia confidencial",
+        "descripcion": "Detección somática de presencia y respiración por radar mmWave. Cero cámaras, cero micrófonos abiertos, confidencialidad absoluta del cliente."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.338,
+          -34.62
+        ]
+      },
+      "properties": {
+        "id": "node_use_03",
+        "nombre": "Caso de Uso — Hogar Soberano (Adulto Mayor Solo)",
+        "tipo": "Cuidado Respetuoso No Invasivo",
+        "cobertura_km": 1.5,
+        "frecuencia": "LoRa / Radar mmWave",
+        "color": "#FF007F",
+        "categoria": "simulacion",
+        "avatar": "👵 Abuela 'Elena' en su hogar",
+        "descripcion": "Telemetría pasiva de rutinas domésticas ('keep-alive') y sensor de caídas. El familiar ve la paz del hogar en tiempo real sin violar su privacidad."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.336,
+          -34.612
+        ]
+      },
+      "properties": {
+        "id": "node_use_04",
+        "nombre": "Caso de Uso — Jardín de Infantes / Inclusión Damián & Rafael",
+        "tipo": "Entorno Inclusivo de Bajo Estímulo",
+        "cobertura_km": 1.0,
+        "frecuencia": "NFC Pasivo / E-Ink",
+        "color": "#D4AF37",
+        "categoria": "simulacion",
+        "avatar": "👧 Niña en aula inclusiva",
+        "descripcion": "Credencial Phyxital táctica y libreta E-Ink. Convierte instrucciones complejas en esquemas visuales calmados, reduciendo la ansiedad escolar."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.58,
+          -35.08
+        ]
+      },
+      "properties": {
+        "id": "node_auger_01",
+        "nombre": "Nodo Pierre Auger Norte — Tanques Cherenkov Shield",
+        "tipo": "Telemetría Científica Off-Grid",
+        "cobertura_km": 10.0,
+        "frecuencia": "LoRa Sub-GHz 915 MHz",
+        "color": "#3F51B5",
+        "categoria": "ciencia_cordillera",
+        "avatar": "Científico supervisando detectores",
+        "descripcion": "Protección y telemetría de paneles solares, electrónica de adquisición y tanques Cherenkov distribuidos en la pampa amarillenta de El Sosneado."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.52,
+          -35.15
+        ]
+      },
+      "properties": {
+        "id": "node_auger_02",
+        "nombre": "Nodo Pierre Auger Sur — Detectores de Fluorescencia",
+        "tipo": "Telemetría Científica & Perímetro",
+        "cobertura_km": 10.0,
+        "frecuencia": "LoRa Sub-GHz",
+        "color": "#3F51B5",
+        "categoria": "ciencia_cordillera",
+        "avatar": "Estación de investigación en cordillera",
+        "descripcion": "Supervisión de sensores meteorológicos extremos y alerta de interferencia o acceso no autorizado a celdas aisladas en alta montaña."
+      }
+    }
+  ]
+}
